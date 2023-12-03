@@ -1,6 +1,10 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "BulletManager.h"
+#include "FrameRate.h"
+
+#include <iostream>
+#include <sstream>
 
 int main()
 {
@@ -10,11 +14,14 @@ int main()
     settings.antialiasingLevel = 2;
 
     sf::RenderWindow window(sf::VideoMode(1280, 720), "My window", sf::Style::Default, settings);
+    window.setFramerateLimit(240);
 
+    FrameRate frameRate;
     Player player;
     Enemy enemy;
     BulletManager bulletManager;
 
+    frameRate.Initialize();
     player.Initialize();
     enemy.Initialize();
     bulletManager.Initialize();
@@ -23,14 +30,21 @@ int main()
 
     //----------------------------LOAD------------------------------------
 
+    frameRate.Load();
     enemy.Load();
     player.Load();
     bulletManager.Load();
 
     //----------------------------LOAD------------------------------------
 
+    sf::Clock clock;
+    sf::Uint8 clockCycle = 0;
+
     while (window.isOpen())
     {
+
+        sf::Time deltaTimeTimer = clock.restart();
+        float deltaTime = deltaTimeTimer.asMicroseconds()/1000.0f;
         //----------------------------UPDATE----------------------------------------
 
         sf::Event event;
@@ -41,26 +55,33 @@ int main()
             }
         }
 
-        player.Update();
+        frameRate.Update(deltaTime);
+        player.Update(deltaTime,enemy);
         enemy.Update();
-        bulletManager.Update(player.sprite, window);
+        bulletManager.Update(deltaTime,player.sprite, window,enemy);
 
         //----------------------------UPDATE--------------------------------------
 
 
         //----------------------------DRAW----------------------------------------
 
-        window.clear(sf::Color::Black);
+        //if (clockCycle % 4 == 0)
+        {
+            window.clear(sf::Color::Black);
 
-        enemy.Draw(window);
-        bulletManager.Draw(window);
-        player.Draw(window);
+            enemy.Draw(window);
+            bulletManager.Draw(window);
+            player.Draw(window);
+            frameRate.Draw(window);
+
+
+            window.display();
+        }
+
         
-
-        window.display();
-
+        
+        clockCycle++;
         //----------------------------DRAW----------------------------------------
-
     }
 
     return 0;

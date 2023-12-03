@@ -13,8 +13,13 @@
 
 //movement constants
 
-#define STEP_SIZE 0.5f
+#define STEP_SIZE 230
+//Pixel na sekunde
+#define MOV_SPEED STEP_SIZE/1000.0f
+//Pixel na microsekunde (unit czasu)
 
-//reserve constants
+
+
+//reserve constantsSS
 #define BULLET_RESERVE 1000
 #define TEXTURE_RESERVE 5

@@ -25,19 +25,24 @@ void BulletManager::Load()
     textures.push_back(bulletTexture);
 }
 
-void BulletManager::Update(sf::Sprite& player,sf::RenderWindow& window)
+void BulletManager::Update(float& deltaTime,sf::Sprite& player,sf::RenderWindow& window,Enemy& skeleton)
 {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        Bullet bullet;
-        bullet.Initialize(textures[0],player,window);
+        if (lastFired > cooldown)
+        {
+            Bullet bullet;
+            bullet.Initialize(textures[0], player, window);
 
-        bullets.push_back(bullet);
+            bullets.push_back(bullet);
+            lastFired = 0;
+        }
     }
 
     for (size_t i = 0; i < bullets.size(); i++)
     {
-        bullets[i].Update();
+        if (bullets[i].Update(deltaTime, skeleton))
+            bullets.erase(bullets.begin() + i);
     }
 
     for (size_t i = 0; i < bullets.size(); i++)
@@ -49,6 +54,9 @@ void BulletManager::Update(sf::Sprite& player,sf::RenderWindow& window)
             bullets.erase(bullets.begin() + i);
         }
     }
+
+    std::cout<<bullets.size()<<std::endl;
+    lastFired += deltaTime;
 }
 
 void BulletManager::Draw(sf::RenderWindow& window)

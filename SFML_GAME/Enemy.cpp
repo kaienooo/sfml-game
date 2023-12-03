@@ -3,6 +3,9 @@
 
 void Enemy::Initialize()
 {
+    boundingRectangle.setFillColor(sf::Color::Transparent);
+    boundingRectangle.setOutlineThickness(2);
+    boundingRectangle.setOutlineColor(sf::Color::Red);
 }
 
 void Enemy::Load()
@@ -16,6 +19,7 @@ void Enemy::Load()
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(xIndex * 64, yIndex * 64, 64, 64));
         sprite.setScale(sf::Vector2f(3, 3));
+        boundingRectangle.setSize(sf::Vector2f(width * sprite.getScale().x, height * sprite.getScale().y));
         sprite.setPosition(sf::Vector2f(700, 500));
 
     }
@@ -27,10 +31,18 @@ void Enemy::Load()
 
 void Enemy::Update()
 {
+    boundingRectangle.setPosition(sprite.getPosition());
+    if (health <= 0)
+    {
+        sprite.setScale(0, 0);
+        boundingRectangle.setScale(0, 0);
+    }
+        
 }
 
 void Enemy::Draw(sf::RenderWindow& window)
 {
+    window.draw(boundingRectangle);
     window.draw(sprite);
 }
 

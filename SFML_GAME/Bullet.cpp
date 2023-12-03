@@ -1,6 +1,7 @@
 #include "Bullet.h"
 #include <iostream>
 #include "include/constants.h"
+#include "Math.h"
 
 void Bullet::Initialize(sf::Texture& texture, sf::Sprite& player, sf::RenderWindow& window)
 {
@@ -13,16 +14,26 @@ void Bullet::Initialize(sf::Texture& texture, sf::Sprite& player, sf::RenderWind
 
     sf::Vector2f target = mousePos - sprite.getPosition();
     sprite.setPosition(sprite.getPosition() - sprite.getGlobalBounds().getSize() / 2.0f);
-    velocity = target * (float)(STEP_SIZE / sqrt(pow(target.x, 2) + pow(target.y, 2)));
+    velocity = target * (float)(speed / sqrt(pow(target.x, 2) + pow(target.y, 2)));
+
+    boundingRectangle = sf::FloatRect(sprite.getPosition(), sprite.getGlobalBounds().getSize());
 }
 
 void Bullet::Load()
 {
 }
 
-void Bullet::Update()
+int Bullet::Update(float& deltaTime, Enemy& skeleton)
 {
-    sprite.setPosition(sprite.getPosition() + velocity);
+    sprite.setPosition(sprite.getPosition() + velocity * deltaTime);
+    boundingRectangle.left = sprite.getPosition().x;
+    boundingRectangle.top = sprite.getPosition().y;
+    if (Math::CheckRectCollision(boundingRectangle, skeleton.boundingRectangle.getGlobalBounds()))
+    {
+        skeleton.health -= 5;
+        return 1;
+    }
+    return 0;
 }
 
 void Bullet::Draw(sf::RenderWindow& window)
