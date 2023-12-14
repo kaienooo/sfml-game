@@ -149,22 +149,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="BulletManager.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="FrameRate.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Math.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="src\MapLoader.cpp" />
+    <ClCompile Include="src\Bullet.cpp" />
+    <ClCompile Include="src\BulletManager.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\FrameRate.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\Math.cpp" />
+    <ClCompile Include="src\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="BulletManager.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="FrameRate.h" />
-    <ClInclude Include="include\constants.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="src\MapLoader.h" />
+    <ClInclude Include="src\Bullet.h" />
+    <ClInclude Include="src\BulletManager.h" />
+    <ClInclude Include="src\Enemy.h" />
+    <ClInclude Include="src\FrameRate.h" />
+    <ClInclude Include="src\include\constants.h" />
+    <ClInclude Include="src\Map.h" />
+    <ClInclude Include="src\Math.h" />
+    <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\Tile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

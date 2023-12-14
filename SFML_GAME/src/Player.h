@@ -13,7 +13,7 @@ private:
 
 	float speed = MOV_SPEED;
 
-	float animationDelta = 0;
+	double animationDelta = 0;
 
 	float width = 64;
 	float height = 64;
@@ -25,7 +25,7 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(float& deltaTime , Enemy& skeleton);
+	void Update(double& deltaTime, Enemy& skeleton);
 	void Draw(sf::RenderWindow& window);
 
 };

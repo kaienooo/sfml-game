@@ -2,9 +2,10 @@
 #include "Enemy.h"
 #include "BulletManager.h"
 #include "FrameRate.h"
+#include "Map.h"
+#include "MapLoader.h"
 
 #include <iostream>
-#include <sstream>
 
 int main()
 {
@@ -16,11 +17,16 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1280, 720), "My window", sf::Style::Default, settings);
     window.setFramerateLimit(240);
 
+    Map map;
     FrameRate frameRate;
     Player player;
     Enemy enemy;
     BulletManager bulletManager;
 
+    MapLoader mapLoader;
+    mapLoader.Load("assets/maps/level1.aha66");
+    
+    map.Initialize();
     frameRate.Initialize();
     player.Initialize();
     enemy.Initialize();
@@ -30,10 +36,12 @@ int main()
 
     //----------------------------LOAD------------------------------------
 
+    map.Load();
     frameRate.Load();
     enemy.Load();
     player.Load();
     bulletManager.Load();
+    //mapLoader.Save("level1.aha66");
 
     //----------------------------LOAD------------------------------------
 
@@ -42,9 +50,13 @@ int main()
 
     while (window.isOpen())
     {
+        std::vector<sf::CircleShape> kropki;
+        kropki.reserve(100);
+
+
 
         sf::Time deltaTimeTimer = clock.restart();
-        float deltaTime = deltaTimeTimer.asMicroseconds()/1000.0f;
+        double deltaTime = deltaTimeTimer.asMicroseconds()/1000.0f;
         //----------------------------UPDATE----------------------------------------
 
         sf::Event event;
@@ -55,20 +67,23 @@ int main()
             }
         }
 
+        sf::Vector2i mousepos = sf::Mouse::getPosition(window);
+
+        map.Update(deltaTime);
         frameRate.Update(deltaTime);
         player.Update(deltaTime,enemy);
         enemy.Update();
-        bulletManager.Update(deltaTime,player.sprite, window,enemy);
+        bulletManager.Update(deltaTime,player.sprite,mousepos,enemy);
 
         //----------------------------UPDATE--------------------------------------
 
 
         //----------------------------DRAW----------------------------------------
 
-        //if (clockCycle % 4 == 0)
-        {
+        //if (clockCycle % 30 == 0)
+        //{
             window.clear(sf::Color::Black);
-
+            map.Draw(window);
             enemy.Draw(window);
             bulletManager.Draw(window);
             player.Draw(window);
@@ -76,7 +91,7 @@ int main()
 
 
             window.display();
-        }
+        //}
 
         
         

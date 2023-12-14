@@ -8,12 +8,12 @@ private:
 	std::vector<sf::Texture> textures;
 	std::vector<Bullet> bullets;
 
-	float cooldown = 0.0001f;
-	float lastFired = 0;
+	double cooldown = 100.0f;
+	double lastFired = 0;
 public:
 	void Initialize();
 	void Load();
-	void Update(float& deltaTime, sf::Sprite& player, sf::RenderWindow& window,Enemy& skeleton);
+	void Update(double& deltaTime, sf::Sprite& player, sf::Vector2i& mousepos,Enemy& skeleton);
 	void Draw(sf::RenderWindow& window);
 
 };

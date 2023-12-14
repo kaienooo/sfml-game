@@ -1,6 +1,17 @@
 #include "Enemy.h"
 #include <iostream>
 
+Enemy::Enemy() :
+    health(100), width(64),height(64)
+{
+}
+
+void Enemy::ChangeHealth(int hp) 
+{
+    health += hp;
+    healthText.setString("Skeleton health is " + std::to_string(health));
+}
+
 void Enemy::Initialize()
 {
     boundingRectangle.setFillColor(sf::Color::Transparent);
@@ -27,22 +38,35 @@ void Enemy::Load()
     {
         std::cout << "Enemy texture failed to load" << std::endl;
     }
+
+    if (font.loadFromFile("assets/fonts/Arial.ttf"))
+    {
+        std::cout << "Arial.ttf loaded successfully" << std::endl;
+        healthText.setFont(font);
+        healthText.setString("Skeleton health is " + std::to_string(health));
+    }
+    else
+    {
+        std::cout << "Arial.ttf loading unsuccessul" << std::endl;
+    }
 }
 
 void Enemy::Update()
 {
-    boundingRectangle.setPosition(sprite.getPosition());
-    if (health <= 0)
+    if (health > 0)
     {
-        sprite.setScale(0, 0);
-        boundingRectangle.setScale(0, 0);
+        boundingRectangle.setPosition(sprite.getPosition());
+        healthText.setPosition(sprite.getPosition());    
     }
-        
 }
 
 void Enemy::Draw(sf::RenderWindow& window)
 {
-    window.draw(boundingRectangle);
-    window.draw(sprite);
+    if (health > 0)
+    { 
+        window.draw(boundingRectangle);
+        window.draw(sprite);
+        window.draw(healthText);
+    }
 }
 

@@ -19,9 +19,9 @@ public:
 
 public:
 
-	void Initialize(sf::Texture& texture,sf::Sprite& player,sf::RenderWindow& window);
+	void Initialize(sf::Texture& texture,sf::Sprite& player,sf::Vector2i& mousepos);
 	void Load();
-	int Update(float& deltaTime, Enemy& skeleton);
+	int Update(double& deltaTime, Enemy& skeleton);
 	void Draw(sf::RenderWindow& window);
 
 };

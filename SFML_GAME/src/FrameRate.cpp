@@ -2,6 +2,11 @@
 #include <iostream>
 #include <string>
 
+FrameRate::FrameRate() :
+	timer(0)
+{
+}
+
 void FrameRate::Initialize()
 {
 }
@@ -20,7 +25,7 @@ void FrameRate::Load()
 
 }
 
-void FrameRate::Update(float& deltaTime)
+void FrameRate::Update(double& deltaTime)
 {
 	if (timer > 100.0f) {
 		text.setString("FPS: " + std::to_string((int)(1000 / deltaTime)));

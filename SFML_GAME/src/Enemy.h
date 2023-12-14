@@ -5,17 +5,21 @@ class Enemy
 {
 private:
 	sf::Texture texture;
-	float width = 64;
-	float height = 64;
+	float width;
+	float height;
 
+	sf::Font font;
+	sf::Text healthText;
 	
-
 public:
-	int health = 1000;
+	int health;
 	sf::RectangleShape boundingRectangle;
 	sf::Sprite sprite;
 
 public:
+
+	Enemy();
+	void ChangeHealth(int hp);
 
 	void Initialize();
 	void Load();

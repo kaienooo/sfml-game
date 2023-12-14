@@ -4,14 +4,15 @@
 class FrameRate
 {
 private:
+	double timer;
 	sf::Text text;
 	sf::Font font;
-
-	float timer = 0;
 public:
+	FrameRate();
+
 	void Initialize();
 	void Load();
-	void Update(float& deltaTime);
+	void Update(double& deltaTime);
  	void Draw(sf::RenderWindow& window);
 };
 

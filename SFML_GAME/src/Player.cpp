@@ -28,7 +28,7 @@ void Player::Load()
     }
 }
 
-void Player::Update(float& deltaTime,Enemy& skeleton)
+void Player::Update(double& deltaTime,Enemy& skeleton)
 {
     sf::Vector2f position = sprite.getPosition();
 
@@ -36,7 +36,7 @@ void Player::Update(float& deltaTime,Enemy& skeleton)
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        position = position + sf::Vector2f(0, -speed) * deltaTime;
+        position = position + sf::Vector2f(0, -speed) * (float)deltaTime;
         if (moveCycle[1] != 0) {
             moveCycle[1] = 0;
         }
@@ -44,7 +44,7 @@ void Player::Update(float& deltaTime,Enemy& skeleton)
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        position = position + sf::Vector2f(0, speed) * deltaTime;
+        position = position + sf::Vector2f(0, speed) * (float)deltaTime;
         if (moveCycle[1] != 2) {                           
             moveCycle[1] = 2;
         } 
@@ -52,7 +52,7 @@ void Player::Update(float& deltaTime,Enemy& skeleton)
     }                                                      
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))       
     {                                                      
-        position = position + sf::Vector2f(-speed, 0) * deltaTime;
+        position = position + sf::Vector2f(-speed, 0) * (float)deltaTime;
         if (moveCycle[1] != 1) {                           
             moveCycle[1] = 1;
         }  
@@ -60,7 +60,7 @@ void Player::Update(float& deltaTime,Enemy& skeleton)
     }                                                      
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))       
     {                                                      
-        position = position + sf::Vector2f(speed, 0) * deltaTime;
+        position = position + sf::Vector2f(speed, 0) * (float)deltaTime;
         if (moveCycle[1] != 3) {
             moveCycle[1] = 3;
         }
@@ -74,7 +74,7 @@ void Player::Update(float& deltaTime,Enemy& skeleton)
 
     animationDelta += deltaTime;
 
-    if (animationDelta > 62.5 && moving)
+    if (animationDelta > 100 && moving)
     {
         moveCycle[0] = (moveCycle[0] + 1) % 9;
         animationDelta = 0;

@@ -3,9 +3,9 @@
 #include "include/constants.h"
 #include "Math.h"
 
-void Bullet::Initialize(sf::Texture& texture, sf::Sprite& player, sf::RenderWindow& window)
+void Bullet::Initialize(sf::Texture& texture, sf::Sprite& player, sf::Vector2i& mousepos)
 {
-    sf::Vector2f mousePos = (sf::Vector2f)(sf::Mouse::getPosition() - window.getPosition() - sf::Vector2i(0, 38));
+    sf::Vector2f mousePos = (sf::Vector2f)mousepos;
 
     sf::FloatRect playerRect = player.getGlobalBounds();
     sprite.setTexture(texture);
@@ -23,16 +23,20 @@ void Bullet::Load()
 {
 }
 
-int Bullet::Update(float& deltaTime, Enemy& skeleton)
+int Bullet::Update(double& deltaTime, Enemy& skeleton)
 {
-    sprite.setPosition(sprite.getPosition() + velocity * deltaTime);
+    sprite.setPosition(sprite.getPosition() + velocity * (float)deltaTime);
     boundingRectangle.left = sprite.getPosition().x;
     boundingRectangle.top = sprite.getPosition().y;
-    if (Math::CheckRectCollision(boundingRectangle, skeleton.boundingRectangle.getGlobalBounds()))
+    if (skeleton.health > 0)
     {
-        skeleton.health -= 5;
-        return 1;
+        if (Math::CheckRectCollision(boundingRectangle, skeleton.boundingRectangle.getGlobalBounds()))
+        {
+            skeleton.ChangeHealth(-10);
+            return 1;
+        }
     }
+    
     return 0;
 }
 

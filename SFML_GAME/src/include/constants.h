@@ -20,6 +20,6 @@
 
 
 
-//reserve constantsSS
-#define BULLET_RESERVE 1000
+//reserve constants
+#define BULLET_RESERVE 100
 #define TEXTURE_RESERVE 5
