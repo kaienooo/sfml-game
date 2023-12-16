@@ -19,7 +19,7 @@ void Player::Load()
     {
         std::cout << "Player sprite loaded succesfully";
         sprite.setTexture(texture);
-        sprite.setScale(sf::Vector2f(3, 3));
+        sprite.setScale(sf::Vector2f(2, 2));
         boundingRectangle.setSize(sf::Vector2f(width * sprite.getScale().x, height * sprite.getScale().y));
     }
     else

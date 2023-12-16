@@ -1,8 +1,8 @@
 #include "MapLoader.h"
+#include "MapData.h"
 #include <fstream>
-#include <string>
 
-void MapLoader::Load(std::string filename)
+void MapLoader::Load(std::string filename, MapData& data)
 {
 	std::string line;
 	std::ifstream file(filename);
@@ -32,15 +32,78 @@ void MapLoader::Load(std::string filename)
 				int count = line.find('=');
 
 				std::string variable = line.substr(0, count);
-				std::string value = line.substr(count+1, line.length() - count -1);
+				std::string value = line.substr(count + 1, line.length() - count-1);
 
-				std::cout << variable << std::endl;
-				std::cout << value << std::endl;
-				break;
+				try
+				{
+					if (variable == "tilesheet")
+						data.tilesheet = value;
+
+					else if (variable == "name")
+						data.name = value;
+
+					else if (variable == "tile-width")
+						data.tileWidth = std::stoi(value);
+
+					else if (variable == "tile-height")
+						data.tileHeight = std::stoi(value);
+
+					else if (variable == "scale-x")
+						data.scaleX = std::stoi(value);
+
+					else if (variable == "scale-y")
+						data.scaleY = std::stoi(value);
+
+					else if (variable == "data-length")
+						data.dataLength = std::stoi(value);
+
+					else if (variable == "data")
+					{
+						data.data = new int[data.dataLength];
+						int i = 0;
+						int j = 0;
+						std::string podTresc;
+						while (i < value.length())
+						{
+							podTresc = "";
+							while (value[i] != ',')
+							{
+								if (value[i] == ' ')
+								{
+									i++;
+								}
+								else
+								{
+									podTresc += value[i++];
+								}
+
+								if (i == value.length())
+									break;
+							}
+							i++;
+							if (j < data.dataLength)
+							{
+								data.data[j++] = std::stoi(podTresc);
+							}
+						}
+					}
+					else if (variable == "data-x")
+						data.mapWidth = std::stoi(value);
+				}
+				catch (const std::exception&)
+				{
+					std::cout << "Error! "<< filename << std::endl;
+				}
+				
 			}
-			
+
 		}
 		file.close();
+
+		for (int i = 0; i < data.dataLength; i++) {
+			std::cout << data.data[i] << ",";
+		}
+		std::cout << "\n";
 	}
 	else
 	{

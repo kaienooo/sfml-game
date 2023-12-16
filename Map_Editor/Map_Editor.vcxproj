@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{7faa10bf-9ae9-43af-918e-4e4ad6181129}</ProjectGuid>
-    <RootNamespace>SFMLGAME</RootNamespace>
+    <ProjectGuid>{3ccaa7af-dfd5-4268-84b7-b284d34424ac}</ProjectGuid>
+    <RootNamespace>MapEditor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,24 +71,30 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\ME\bin</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\ME\Intermediate</IntDir>
     <IncludePath>$(SolutionDir)dependencies\SFML\include;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)dependencies\SFML\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\bin</OutDir>
-    <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\Intermediate</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\ME\bin</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\ME\Intermediate</IntDir>
     <IncludePath>$(SolutionDir)dependencies\SFML\include;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)dependencies\SFML\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\bin</OutDir>
-    <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\Intermediate</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\bin</OutDir>
-    <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\Intermediate</IntDir>
+    <IncludePath>$(SolutionDir)dependencies\SFML\include;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(SolutionDir)dependencies\SFML\lib;$(ExternalIncludePath)</ExternalIncludePath>
+    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\ME\bin</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\ME\Intermediate</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\bin</OutDir>
-    <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\Intermediate</IntDir>
+    <IncludePath>$(SolutionDir)dependencies\SFML\include;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(SolutionDir)dependencies\SFML\lib;$(ExternalIncludePath)</ExternalIncludePath>
+    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\ME\bin</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\ME\Intermediate</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -122,7 +128,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -137,7 +143,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -145,32 +151,19 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-network-s.lib;sfml-audio-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib	;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-network-s.lib;sfml-audio-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\MapLoader.cpp" />
-    <ClCompile Include="src\Bullet.cpp" />
-    <ClCompile Include="src\BulletManager.cpp" />
-    <ClCompile Include="src\Enemy.cpp" />
-    <ClCompile Include="src\FrameRate.cpp" />
+    <ClCompile Include="src\MapExporter.cpp" />
+    <ClCompile Include="src\MouseTile.cpp" />
+    <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Map.cpp" />
-    <ClCompile Include="src\Math.cpp" />
-    <ClCompile Include="src\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\MapData.h" />
-    <ClInclude Include="src\MapLoader.h" />
-    <ClInclude Include="src\Bullet.h" />
-    <ClInclude Include="src\BulletManager.h" />
-    <ClInclude Include="src\Enemy.h" />
-    <ClInclude Include="src\FrameRate.h" />
-    <ClInclude Include="src\include\constants.h" />
-    <ClInclude Include="src\Map.h" />
-    <ClInclude Include="src\Math.h" />
-    <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\Tile.h" />
+    <ClInclude Include="src\MapExporter.h" />
+    <ClInclude Include="src\MouseTile.h" />
+    <ClInclude Include="src\Grid.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

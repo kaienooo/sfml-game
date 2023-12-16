@@ -1,0 +1,10 @@
+[MAP]
+tilesheet=assets/world/prison/tileset.png
+name=Level2.aha66
+tile-width=16
+tile-height=16
+scale-x=7
+scale-y=7
+data-x=5
+data-length=25
+data=11,0,0,0,0,0,0,11,11,11,0,11,11,0,11,0,11,0,0,0,0,0,11,0,11,

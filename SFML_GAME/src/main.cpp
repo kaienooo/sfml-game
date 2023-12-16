@@ -3,7 +3,6 @@
 #include "BulletManager.h"
 #include "FrameRate.h"
 #include "Map.h"
-#include "MapLoader.h"
 
 #include <iostream>
 
@@ -14,19 +13,20 @@ int main()
     sf::ContextSettings settings;
     settings.antialiasingLevel = 2;
 
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "My window", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(1600, 900), "My window", sf::Style::Default, settings);
     window.setFramerateLimit(240);
 
-    Map map;
+    std::vector<Map> maps;
+    maps.reserve(10);
+
+    maps.push_back(Map());
+    maps.push_back(Map());
+
     FrameRate frameRate;
     Player player;
     Enemy enemy;
     BulletManager bulletManager;
 
-    MapLoader mapLoader;
-    mapLoader.Load("assets/maps/level1.aha66");
-    
-    map.Initialize();
     frameRate.Initialize();
     player.Initialize();
     enemy.Initialize();
@@ -36,7 +36,9 @@ int main()
 
     //----------------------------LOAD------------------------------------
 
-    map.Load();
+    maps[0].Load("assets/maps/Level1_1.aha66");
+    maps[1].Load("assets/maps/Level1_2.aha66");
+
     frameRate.Load();
     enemy.Load();
     player.Load();
@@ -69,7 +71,9 @@ int main()
 
         sf::Vector2i mousepos = sf::Mouse::getPosition(window);
 
-        map.Update(deltaTime);
+        maps[0].Update(deltaTime);
+        maps[1].Update(deltaTime);
+
         frameRate.Update(deltaTime);
         player.Update(deltaTime,enemy);
         enemy.Update();
@@ -83,7 +87,10 @@ int main()
         //if (clockCycle % 30 == 0)
         //{
             window.clear(sf::Color::Black);
-            map.Draw(window);
+            maps[0].Draw(window);
+            maps[1].Draw(window);
+
+            enemy.Draw(window);
             enemy.Draw(window);
             bulletManager.Draw(window);
             player.Draw(window);
