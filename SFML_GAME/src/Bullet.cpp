@@ -2,6 +2,7 @@
 #include <iostream>
 #include "include/constants.h"
 #include "Math.h"
+#include "Global.h"
 
 void Bullet::Initialize(sf::Texture& texture, sf::Sprite& player, sf::Vector2i& mousepos)
 {
@@ -32,7 +33,7 @@ int Bullet::Update(double& deltaTime, Enemy& skeleton)
     {
         if (Math::CheckRectCollision(boundingRectangle, skeleton.boundingRectangle.getGlobalBounds()))
         {
-            skeleton.ChangeHealth(-10);
+            skeleton.ChangeHealth(-global::damage);
             return 1;
         }
     }

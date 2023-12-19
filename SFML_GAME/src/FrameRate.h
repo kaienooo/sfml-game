@@ -7,6 +7,7 @@ private:
 	double timer;
 	sf::Text text;
 	sf::Font font;
+
 public:
 	FrameRate();
 

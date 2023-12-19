@@ -5,6 +5,8 @@
 #define MENU 0
 #define SETTINGS 1
 #define PLAYING 2
+#define SHOP 3
+#define EXIT -1
 
 //framerate constants
 

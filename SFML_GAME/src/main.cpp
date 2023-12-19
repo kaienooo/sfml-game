@@ -3,17 +3,20 @@
 #include "BulletManager.h"
 #include "FrameRate.h"
 #include "Map.h"
+#include "Menu.h"
+#include "Shop.h"
+#include "Global.h"
 
 #include <iostream>
 
 int main()
 {
     //----------------------------INIT------------------------------------
-
+   
     sf::ContextSettings settings;
     settings.antialiasingLevel = 2;
 
-    sf::RenderWindow window(sf::VideoMode(1600, 900), "My window", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "My window", sf::Style::Fullscreen, settings);
     window.setFramerateLimit(240);
 
     std::vector<Map> maps;
@@ -26,7 +29,11 @@ int main()
     Player player;
     Enemy enemy;
     BulletManager bulletManager;
+    Menu menu;
+    Shop shop;
 
+    menu.Initialize();
+    shop.Initialize();
     frameRate.Initialize();
     player.Initialize();
     enemy.Initialize();
@@ -39,6 +46,8 @@ int main()
     maps[0].Load("assets/maps/Level1_1.aha66");
     maps[1].Load("assets/maps/Level1_2.aha66");
 
+    menu.Load();
+    shop.Load();
     frameRate.Load();
     enemy.Load();
     player.Load();
@@ -52,6 +61,13 @@ int main()
 
     while (window.isOpen())
     {
+
+        if (global::gameState == EXIT)
+        {
+            window.close();
+            exit(0);
+        }
+
         std::vector<sf::CircleShape> kropki;
         kropki.reserve(100);
 
@@ -71,26 +87,52 @@ int main()
 
         sf::Vector2i mousepos = sf::Mouse::getPosition(window);
 
-        maps[0].Update(deltaTime);
-        maps[1].Update(deltaTime);
+        // MENU
 
-        frameRate.Update(deltaTime);
-        player.Update(deltaTime,enemy);
-        enemy.Update();
-        bulletManager.Update(deltaTime,player.sprite,mousepos,enemy);
+        if (global::gameState == MENU)
+        {
+            menu.Update(mousepos);
+            //----------------------------DRAW----------------------------------------
+            window.clear(sf::Color::Black);
 
-        //----------------------------UPDATE--------------------------------------
+            menu.Draw(window);
+
+            window.display();
+            //----------------------------DRAW----------------------------------------
+        }
+
+        if (global::gameState == SHOP)
+        {
+            shop.Update(deltaTime,mousepos,player,bulletManager);
+
+            window.clear(sf::Color::Black);
+
+            shop.Draw(window);
+
+            window.display();
+        }
 
 
-        //----------------------------DRAW----------------------------------------
+        // MENU
 
-        //if (clockCycle % 30 == 0)
-        //{
+        //-------------------------------------PLAYING----------------------------------------
+
+        if (global::gameState == PLAYING)
+        {
+            maps[0].Update(deltaTime);
+            maps[1].Update(deltaTime);
+
+            frameRate.Update(deltaTime);
+            player.Update(deltaTime, enemy,bulletManager);
+            enemy.Update(deltaTime, player.sprite.getPosition());
+            bulletManager.Update(deltaTime, player.sprite, mousepos, enemy);
+
+
+            //----------------------------DRAW----------------------------------------
             window.clear(sf::Color::Black);
             maps[0].Draw(window);
             maps[1].Draw(window);
 
-            enemy.Draw(window);
             enemy.Draw(window);
             bulletManager.Draw(window);
             player.Draw(window);
@@ -98,12 +140,12 @@ int main()
 
 
             window.display();
-        //}
+            //----------------------------DRAW----------------------------------------
+        }
 
-        
-        
-        clockCycle++;
-        //----------------------------DRAW----------------------------------------
+        //-------------------------------------PLAYING----------------------------------------
+
+  
     }
 
     return 0;

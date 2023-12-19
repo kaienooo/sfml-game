@@ -27,7 +27,7 @@ void BulletManager::Load()
 
 void BulletManager::Update(double& deltaTime,sf::Sprite& player,sf::Vector2i& mousepos,Enemy& skeleton)
 {
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && lastFired > cooldown)
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && lastFired > cooldown)
     {
        
         Bullet bullet;

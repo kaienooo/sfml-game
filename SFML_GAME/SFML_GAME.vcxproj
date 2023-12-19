@@ -149,6 +149,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Shop.cpp" />
+    <ClCompile Include="src\Global.cpp" />
+    <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\MapLoader.cpp" />
     <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\BulletManager.cpp" />
@@ -160,6 +164,10 @@
     <ClCompile Include="src\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Shop.h" />
+    <ClInclude Include="src\Global.h" />
+    <ClInclude Include="src\Button.h" />
+    <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\MapData.h" />
     <ClInclude Include="src\MapLoader.h" />
     <ClInclude Include="src\Bullet.h" />

@@ -2,6 +2,7 @@
 #include "include/constants.h"
 #include <iostream>
 #include "Math.h"
+#include "Global.h"
 
 void Player::Initialize()
 {
@@ -10,7 +11,8 @@ void Player::Initialize()
 
     boundingRectangle.setFillColor(sf::Color::Transparent);
     boundingRectangle.setOutlineThickness(2);
-    boundingRectangle.setOutlineColor(sf::Color::White);
+    boundingRectangle.setOutlineColor(sf::Color::Transparent);
+    //asdasdasdasdasda
 }
 
 void Player::Load()
@@ -20,15 +22,32 @@ void Player::Load()
         std::cout << "Player sprite loaded succesfully";
         sprite.setTexture(texture);
         sprite.setScale(sf::Vector2f(2, 2));
-        boundingRectangle.setSize(sf::Vector2f(width * sprite.getScale().x, height * sprite.getScale().y));
+        sprite.setPosition(1000, 500);
+        boundingRectangle.setSize(sf::Vector2f(width * sprite.getScale().x - 60, height * sprite.getScale().y - 30));
     }
     else
     {
         std::cout << "Player texture failed to load" << std::endl;
     }
+
+    if (font.loadFromFile("assets/fonts/Arial.ttf"))
+    {
+        std::cout << "Arial.ttf loaded successfully" << std::endl;
+        scoreText.setFont(font);
+        scoreText.setString("Wynik: " + std::to_string(score));
+        moneyText.setFont(font);
+        moneyText.setString("Zloto: " + std::to_string(money));
+
+        scoreText.setPosition(sf::Vector2f(0, 1020));
+        moneyText.setPosition(sf::Vector2f(0, 1050));
+    }
+    else
+    {
+        std::cout << "Arial.ttf loading unsuccessul" << std::endl;
+    }
 }
 
-void Player::Update(double& deltaTime,Enemy& skeleton)
+void Player::Update(double& deltaTime,Enemy& skeleton,BulletManager& bManager)
 {
     sf::Vector2f position = sprite.getPosition();
 
@@ -69,7 +88,7 @@ void Player::Update(double& deltaTime,Enemy& skeleton)
 
 
     sprite.setPosition(position);
-    boundingRectangle.setPosition(position);
+    boundingRectangle.setPosition(position + sf::Vector2f(30,25));
     sprite.setTextureRect(sf::IntRect(moveCycle[0] * (int)width, moveCycle[1] * (int)height, (int)width, (int)height));
 
     animationDelta += deltaTime;
@@ -80,13 +99,41 @@ void Player::Update(double& deltaTime,Enemy& skeleton)
         animationDelta = 0;
     }
 
-    if (Math::CheckRectCollision(sprite.getGlobalBounds(),skeleton.sprite.getGlobalBounds()))
-        std::cout<<"COLISION!"<<std::endl;
+    
 
+    if (skeleton.collect_gold)
+    {
+        money += 20;
+        score += 20;
+        skeleton.collect_gold = false;
+
+        scoreText.setString("Wynik: " + std::to_string(score));
+        moneyText.setString("Zloto: " + std::to_string(money));
+    }
+
+    if (skeleton.moving)
+    {
+        if (Math::CheckRectCollision(boundingRectangle.getGlobalBounds(), skeleton.boundingRectangle.getGlobalBounds()))
+        {
+            score = 0;
+
+            sprite.setPosition(1000, 500);
+
+            skeleton.speed = MOV_SPEED * 1.03f;
+            skeleton.maxHealth = 100;
+            skeleton.Initialize();
+
+            bManager.bullets.clear();
+            
+            global::gameState = MENU;
+        }
+    }
 }
 
 void Player::Draw(sf::RenderWindow& window)
 {
     window.draw(sprite);
     window.draw(boundingRectangle);
+    window.draw(moneyText);
+    window.draw(scoreText);
 }
